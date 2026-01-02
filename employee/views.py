@@ -221,15 +221,15 @@ def update_name(request):
         }
         return JsonResponse(res)
 
-# @api_view(['DELETE'])
-# def delete_employee(request,pk):
-#     method = request.method
-#     if method == 'DELETE':
-#         emp = Employee.objects.get(id=pk)
-#         emp.delete()
-#         res = {
-#             "mesg": "successfully record  deleted"
-#
-#         }
-#         return JsonResponse(res)
+@api_view(['DELETE'])
+def delete_employee(request,pk):
+    method = request.method
+    if method == 'DELETE':
+        emp = Employee.objects.get(id=pk)
+        emp.delete()
+        res = {
+            "mesg": "successfully record  deleted"
+
+        }
+        return JsonResponse(res)
 

@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from employee.views import info1, m1, save_employee, employee_data, update_name
+from employee.views import info1, m1, save_employee, employee_data, update_name, delete_employee
 
 #from .views import hello_world, save_world, update_world, addition, subtraction, multiplication
 
@@ -22,6 +22,9 @@ urlpatterns = [
      path('save1/',save_employee),
 
     path('manage/', employee_data),
+
+
+    path('delete/',delete_employee),
 
 
 
