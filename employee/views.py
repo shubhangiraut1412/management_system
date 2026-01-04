@@ -1,4 +1,5 @@
 from http import HTTPStatus
+import json
 
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
@@ -88,40 +89,7 @@ def info1(request):
     else:
         return JsonResponse()
 
-
-@api_view(['GET', 'POST'])
-def m1(request):
-    method = request.method
-
-    if method == 'GET':
-        name = request.query_params.get('name')
-        age = request.query_params.get('age')
-        res = {
-            "res": f"My Name is {name} and I'm {age} years old"
-        }
-        return JsonResponse(res)
-
-    elif method == 'POST':
-        # Read all request data
-        data = request.data
-
-        # create employee instance
-        emp = Employee()
-
-        # set all values
-        emp.name = data.get("name")
-        emp.age = data.get("age")
-        emp.salary = data.get("salary")
-        emp.address = data.get("address")
-        emp.email = data.get("email")
-
-        emp.save()
-        res = {
-            "mesg": "your data successfully saved"
-        }
-
-        return JsonResponse(res)
-
+# SAVE
 
 @api_view(['POST'])
 def save_employee(request):
@@ -155,46 +123,7 @@ def save_employee(request):
 
         return JsonResponse(res)
 
-
-@api_view(['GET', 'POST'])
-def employee_data(request):
-    method = request.method
-    if method == 'POST':
-        mobile = request.data.get("mobile")
-        name = request.data.get("name")
-        email = request.data.get("email")
-        age = request.data.get("age")
-        emp = Employee()
-        emp.email = email
-        emp.name = name
-        emp.mobile = mobile
-        emp.age = age
-
-        emp.save()
-        res = {
-            "mesg": "your data fill successfully"
-
-        }
-        return JsonResponse(res)
-
-
-@api_view(['PATCH'])
-def update_employee(request):
-    method = request.method
-    if method == 'PATCH':
-        data = request.data
-        employee_id = data.get("id")
-        emp = Employee.objects.get(id=employee_id)
-        print(emp)
-        emp.age = data.get("age")
-        emp.address = data.get("address")
-        emp.save()
-        res = {
-            "mesg": "your data update successfully"
-
-        }
-        return JsonResponse(res)
-
+#UPDATE
 
 @api_view(['PATCH'])
 def update_name(request):
@@ -221,6 +150,8 @@ def update_name(request):
         }
         return JsonResponse(res)
 
+#DELETE
+
 @api_view(['DELETE'])
 def delete_employee(request,pk):
     method = request.method
@@ -232,4 +163,21 @@ def delete_employee(request,pk):
 
         }
         return JsonResponse(res)
+
+#READ
+
+@api_view(['GET'])
+def get_employee_details(request):
+    method = request.method
+    if method == 'GET':
+        emp_list=Employee.objects.all().values("name", "age")
+        emp_list=list(emp_list)
+        res = {
+            "message": "successfully record  fetched",
+            "data": d
+
+        }
+        return JsonResponse(res)
+
+
 
